@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useStore, TODAY } from './store';
 import { computeClock } from '../domain/clock';
 import { computeFlags } from '../domain/flags';
+import { mergeCoaching } from '../seed/coaching';
 
 // Memoized derived selectors (ARCHITECTURE §3.2): recompute only when inputs change.
 
@@ -15,6 +16,13 @@ export function useClock() {
     () => computeClock(project.startDate, project.endDate, new Date(TODAY)),
     [project.startDate, project.endDate],
   );
+}
+
+/** The base curriculum with the user's editable live sessions woven in. */
+export function useCoaching() {
+  const coaching = useStore((s) => s.db.coaching);
+  const program = useStore((s) => s.db.program);
+  return useMemo(() => mergeCoaching(coaching, program), [coaching, program]);
 }
 
 export function useFlags() {

@@ -2,7 +2,7 @@ import type {
   DB, Role, TeamMember, StandupQuestion, StandupEntry, Milestone,
   RiskBlocker, ActionItem, Decision, OneOnOne, Kudos, PMTodo, Settings, Project,
 } from '../data/types';
-import { COACHING } from './coaching';
+import { COACHING_BASE, MY_PROGRAM, MY_PROFILE_NAME } from './coaching';
 import { defaultCeremonies } from './ceremonies';
 import { addDays, daysBetween, isWeekend, todayISO } from '../domain/dates';
 
@@ -64,6 +64,7 @@ export function buildEmptyDB(): DB {
   const project: Project = { id: 'project', name: 'My Project', startDate: null, endDate: null, goal: '', successMetrics: '', rag: 'green' };
   return {
     schemaVersion: 1,
+    profile: { name: MY_PROFILE_NAME },
     roles: defaultRoles(),
     members: [],
     project,
@@ -79,7 +80,8 @@ export function buildEmptyDB(): DB {
     todos: [],
     kudos: [],
     leave: [],
-    coaching: COACHING,
+    coaching: COACHING_BASE,
+    program: [...MY_PROGRAM],
     coachingProgress: {},
     ceremonies: defaultCeremonies(),
     weeklyReports: [],
@@ -187,6 +189,7 @@ export function buildSeedDB(anchor: string = todayISO()): DB {
 
   return {
     schemaVersion: 1,
+    profile: { name: MY_PROFILE_NAME },
     roles: defaultRoles(),
     members,
     project: { id: 'project', name: 'Onboarding Revamp', startDate: START, endDate: END, goal: 'New users complete first-run onboarding and reach their first “aha” in under 5 minutes.', successMetrics: 'Activation rate ≥ 60% · Time-to-first-value < 5 min · Onboarding drop-off < 25%', rag: 'green' },
@@ -202,7 +205,8 @@ export function buildSeedDB(anchor: string = todayISO()): DB {
     todos,
     kudos,
     leave: [],
-    coaching: COACHING,
+    coaching: COACHING_BASE,
+    program: [...MY_PROGRAM],
     coachingProgress: {},
     ceremonies: defaultCeremonies(),
     weeklyReports: [],

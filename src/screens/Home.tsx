@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useStore } from '../store/store';
-import { useClock, useToday } from '../store/selectors';
+import { useClock, useToday, useCoaching } from '../store/selectors';
 import { computeFlags } from '../domain/flags';
 import { sprintNumberForWeek, totalSprints } from '../domain/sprints';
 import { standupCoverage, teamSentiment, moodEmoji } from '../domain/trends';
@@ -46,7 +46,8 @@ export function Home() {
   const sentiment = teamSentiment(db, clock.totalWeeks).filter((w) => w.count > 0);
   const maxMood = 5;
 
-  const module = db.coaching.find((m) => m.weekNo === clock.weekNo);
+  const coaching = useCoaching();
+  const module = coaching.find((m) => m.weekNo === clock.weekNo);
   const doneMilestones = db.milestones.filter((m) => m.status === 'done').length;
 
   const part = new Date(today).getHours() < 12 ? 'morning' : 'afternoon';
@@ -65,7 +66,7 @@ export function Home() {
 
       <div className="content">
         <div className="reveal d1">
-          <div className="greet">Good {part}, Sreejith 👋</div>
+          <div className="greet">Good {part}{db.profile.name ? `, ${db.profile.name}` : ''} 👋</div>
           <div className="greet-sub">
             You're in <b>Week {clock.weekNo} of {clock.totalWeeks}</b>
             {' · '}<b>Sprint {sprintNumberForWeek(clock.weekNo, db.settings.sprintLengthWeeks)} of {totalSprints(clock.totalWeeks, db.settings.sprintLengthWeeks)}</b>

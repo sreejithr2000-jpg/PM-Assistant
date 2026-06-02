@@ -179,11 +179,31 @@ export interface CeremonyGuide {
   enabled: boolean;
 }
 
-/** A scheduled live program session attached to a coaching week. */
+/** A scheduled live program session attached to a coaching week (display shape). */
 export interface ProgramSession {
   topic: string;
   when: string;       // human-readable, e.g. "Wed, Jun 3 · 8pm EST"
   presenter: string;
+}
+
+/**
+ * A user-editable live session pinned to a coaching week. Stored in DB.program,
+ * so it travels with the user's data rather than being baked into the curriculum.
+ * Empty by default on a fresh install; anyone can add their own from Settings.
+ */
+export interface ProgramWeek {
+  weekNo: number;
+  topic: string;
+  when: string;       // human-readable, e.g. "Wed, Jun 3 · 8pm EST"
+  presenter: string;
+  learn?: string;     // optional extra "Learn this week" bullet
+  do?: string;        // optional extra "Do this week" bullet (shown first)
+  resource?: string;  // optional extra resource label
+}
+
+/** The single local user of this install. Local-first, no logins. */
+export interface Profile {
+  name: string;
 }
 
 export interface CoachingModule {
@@ -241,6 +261,8 @@ export interface Settings {
 /** The entire in-memory database — serialized as the JSON snapshot. */
 export interface DB {
   schemaVersion: number;
+  /** the one local user of this install (name only — no logins). */
+  profile: Profile;
   roles: Role[];
   members: TeamMember[];
   project: Project;
@@ -256,7 +278,10 @@ export interface DB {
   todos: PMTodo[];
   kudos: Kudos[];
   leave: LeaveEntry[];
+  /** base curriculum (code, refreshed on migrate). Merged with `program` for display. */
   coaching: CoachingModule[];
+  /** user-editable live sessions, one optional entry per week. Empty by default. */
+  program: ProgramWeek[];
   /** resource id -> reviewed. Powers "weekly coaching module reviewed" (PRD §7.2). */
   coachingProgress: Record<string, boolean>;
   /** editable Scrum ceremony guides (Planning, Refinement, Review, Retro). */

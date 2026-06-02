@@ -7,12 +7,14 @@ interface Row { name: string; roleId: string }
 
 export function Setup() {
   const db = useStore((s) => s.db);
+  const updateProfile = useStore((s) => s.updateProfile);
   const updateProject = useStore((s) => s.updateProject);
   const addMember = useStore((s) => s.addMember);
   const addRole = useStore((s) => s.addRole);
   const loadDemo = useStore((s) => s.loadDemo);
   const today = useToday();
 
+  const [me, setMe] = useState(db.profile.name);
   const [name, setName] = useState('');
   const [startDate, setStartDate] = useState(today);
   const [weeks, setWeeks] = useState(11);
@@ -23,12 +25,13 @@ export function Setup() {
 
   const endDate = addDays(startDate, weeks * 7);
   const filled = rows.filter((r) => r.name.trim());
-  const canFinish = name.trim() && filled.length > 0;
+  const canFinish = me.trim() && name.trim() && filled.length > 0;
 
   const tones = ['', 'c2', 'c3', 'c4'];
 
   function finish() {
     if (!canFinish) return;
+    updateProfile({ name: me.trim() });
     updateProject({ name: name.trim(), startDate, endDate, goal: goal.trim(), successMetrics: metrics.trim(), rag: 'green' });
     filled.forEach((r, i) => addMember({ name: r.name.trim(), roleId: r.roleId || db.roles[0]?.id || '', status: 'active', startDate, careerGoals: '', notes: '', avatarTone: tones[i % 4] }));
   }
@@ -38,15 +41,23 @@ export function Setup() {
       <div style={{ width: '100%', maxWidth: 680 }}>
         <div className="reveal d1" style={{ textAlign: 'center', marginBottom: 28 }}>
           <div className="s-brand" style={{ justifyContent: 'center', fontSize: 22 }}><span className="blob" />PM Assistant</div>
-          <div className="greet" style={{ marginTop: 10 }}>Let’s set up your project 👋</div>
+          <div className="greet" style={{ marginTop: 10 }}>Welcome 👋</div>
           <div className="greet-sub">A couple of details and you’re ready to lead from Week 1. You can change all of this later.</div>
         </div>
 
-        {/* project */}
+        {/* you */}
         <div className="card reveal d2">
+          <div style={{ fontWeight: 600, fontSize: 16, marginBottom: 14 }}>🙋 You</div>
+          <label style={lbl}>Your name</label>
+          <input autoFocus value={me} onChange={(e) => setMe(e.target.value)} placeholder="e.g. Alex" style={inp} />
+          <div style={{ fontSize: 12.5, color: 'var(--ink-3)', marginTop: 8 }}>This is your local profile — no account or login. Everything stays on this computer.</div>
+        </div>
+
+        {/* project */}
+        <div className="card reveal d2 mt3">
           <div style={{ fontWeight: 600, fontSize: 16, marginBottom: 14 }}>🎯 Your project</div>
           <label style={lbl}>Project name</label>
-          <input autoFocus value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Onboarding Revamp" style={inp} />
+          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Onboarding Revamp" style={inp} />
           <div style={{ display: 'flex', gap: 14, marginTop: 12, flexWrap: 'wrap' }}>
             <div style={{ flex: 1, minWidth: 150 }}>
               <label style={lbl}>Start date</label>

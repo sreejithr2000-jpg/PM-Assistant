@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { BackButton } from '../components/BackButton';
 import { useStore } from '../store/store';
 import { downloadJSON, importJSONFile } from '../data/persistence';
-import type { Thresholds } from '../data/types';
+import type { Thresholds, ProgramWeek } from '../data/types';
 import { useToday } from '../store/selectors';
 
 const THRESHOLD_LABELS: Record<keyof Thresholds, string> = {
@@ -18,6 +18,8 @@ const THRESHOLD_LABELS: Record<keyof Thresholds, string> = {
 
 export function Settings() {
   const db = useStore((s) => s.db);
+  const updateProfile = useStore((s) => s.updateProfile);
+  const updateProgram = useStore((s) => s.updateProgram);
   const addRole = useStore((s) => s.addRole);
   const updateRole = useStore((s) => s.updateRole);
   const updateQuestions = useStore((s) => s.updateQuestions);
@@ -113,6 +115,34 @@ export function Settings() {
           </div>
         </div>
 
+        {/* profile */}
+        <div className="panel reveal d4 mt4">
+          <div className="panel-h"><h3>🙋 Your profile</h3></div>
+          <div className="panel-b" style={{ paddingTop: 14 }}>
+            <label style={lbl}>Your name</label>
+            <input defaultValue={db.profile.name} onBlur={(e) => updateProfile({ name: e.target.value })}
+              placeholder="Your name" style={{ ...inp, maxWidth: 320 }} />
+            <p style={{ color: 'var(--ink-3)', fontSize: 12.5, marginTop: 8 }}>
+              Local profile only — no account, no login. Shown in your greeting and reports.
+            </p>
+          </div>
+        </div>
+
+        {/* live program sessions */}
+        <div className="panel reveal d5 mt4">
+          <div className="panel-h">
+            <h3>🎓 Live program sessions</h3>
+            <span className="pill peach">{db.program.length} session{db.program.length === 1 ? '' : 's'}</span>
+          </div>
+          <div className="panel-b" style={{ paddingTop: 14 }}>
+            <p style={{ color: 'var(--ink-2)', fontSize: 14, marginBottom: 14 }}>
+              Optional. If your project has live sessions, classes, or mentor calls tied to specific
+              weeks, add them here — each one is pinned to its week in <b>Coaching</b>.
+            </p>
+            <ProgramEditor program={db.program} onChange={updateProgram} totalWeeks={11} />
+          </div>
+        </div>
+
         {/* data safety */}
         <div className="panel reveal d5 mt4">
           <div className="panel-h"><h3>💾 Data & backups</h3></div>
@@ -156,6 +186,46 @@ export function Settings() {
 
 const inp: React.CSSProperties = { borderRadius: 11, border: '1px solid var(--line-2)', padding: '9px 12px', fontFamily: 'var(--body)', fontSize: 14, background: 'var(--card)', color: 'var(--ink)' };
 const lbl: React.CSSProperties = { display: 'block', fontSize: 12, textTransform: 'uppercase', letterSpacing: '.04em', color: 'var(--ink-3)', marginBottom: 8 };
+
+function ProgramEditor({ program, onChange, totalWeeks }: { program: ProgramWeek[]; onChange: (p: ProgramWeek[]) => void; totalWeeks: number }) {
+  // Keep a stable display order (by week) without reordering on every keystroke.
+  const sorted = [...program].sort((a, b) => a.weekNo - b.weekNo);
+  const patch = (s: ProgramWeek, fields: Partial<ProgramWeek>) =>
+    onChange(program.map((x) => (x === s ? { ...x, ...fields } : x)));
+  const remove = (s: ProgramWeek) => onChange(program.filter((x) => x !== s));
+  const add = () => onChange([...program, { weekNo: 1, topic: '', when: '', presenter: '' }]);
+
+  return (
+    <>
+      {sorted.length === 0 && (
+        <p style={{ color: 'var(--ink-3)', fontSize: 13, fontStyle: 'italic', marginBottom: 12 }}>
+          No sessions yet. Add one if your project includes scheduled live sessions.
+        </p>
+      )}
+      {sorted.map((s, i) => (
+        <div key={i} className="card" style={{ marginBottom: 12, background: 'var(--cream-2)' }}>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center', marginBottom: 8 }}>
+            <select value={s.weekNo} onChange={(e) => patch(s, { weekNo: Number(e.target.value) })} style={{ ...inp, width: 110 }}>
+              {Array.from({ length: totalWeeks }, (_, w) => w + 1).map((w) => <option key={w} value={w}>Week {w}</option>)}
+            </select>
+            <input value={s.topic} onChange={(e) => patch(s, { topic: e.target.value })} placeholder="Session topic" style={{ ...inp, flex: 1, minWidth: 180 }} />
+            <button className="btn btn-ghost" style={{ color: 'var(--red)' }} onClick={() => remove(s)} title="Remove session">Remove</button>
+          </div>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 8 }}>
+            <input value={s.when} onChange={(e) => patch(s, { when: e.target.value })} placeholder="When — e.g. Mon, Jul 6 · 8pm" style={{ ...inp, flex: 1, minWidth: 160 }} />
+            <input value={s.presenter} onChange={(e) => patch(s, { presenter: e.target.value })} placeholder="Presenter (optional)" style={{ ...inp, flex: 1, minWidth: 160 }} />
+          </div>
+          <input value={s.do ?? ''} onChange={(e) => patch(s, { do: e.target.value })} placeholder="“Do this week” line (optional) — e.g. 📅 Attend the session" style={{ ...inp, width: '100%', marginBottom: 8 }} />
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <input value={s.learn ?? ''} onChange={(e) => patch(s, { learn: e.target.value })} placeholder="Extra “Learn” bullet (optional)" style={{ ...inp, flex: 1, minWidth: 160 }} />
+            <input value={s.resource ?? ''} onChange={(e) => patch(s, { resource: e.target.value })} placeholder="Resource to look up (optional)" style={{ ...inp, flex: 1, minWidth: 160 }} />
+          </div>
+        </div>
+      ))}
+      <button className="btn btn-ghost" onClick={add}>+ Add session</button>
+    </>
+  );
+}
 
 function EditableChips({ items, onChange, placeholder }: { items: string[]; onChange: (items: string[]) => void; placeholder: string }) {
   const [val, setVal] = useState('');

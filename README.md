@@ -11,7 +11,7 @@ A personal **PM operating system + coach** — a single-user, local-first, $0 we
 - **Team** — roster, editable roles, per-person timeline, mood trend, 1:1s, kudos, leave, status (active/inactive/left).
 - **Meetings & attendance** — editable types + medium (Teams/Meet/Zoom/Call/Chat), present/late/absent, feeds flags.
 - **Flags engine** — deterministic "catch the small things" rules (overdue 1:1, quiet, tracker stale, blocker aging, action overdue, mood dip, meeting absence), Mon–Fri / leave / no-standup aware, snooze-with-reason.
-- **Coaching** — 11-week PM curriculum with best-practice checks auto-evaluated against your data, trackable resource links, and embedded live program sessions.
+- **Coaching** — 11-week PM curriculum with best-practice checks auto-evaluated against your data and trackable resource links. Optionally pin your own live sessions (classes, mentor calls) to specific weeks from **Settings → Live program sessions**.
 - **Sprints & Scrum guide** — numbered sprints derived from the project clock + editable ceremony scripts (Planning, Daily Scrum, Refinement, Review, Retro).
 - **Project** — goal, success metrics, RAG, milestones, risks, decisions, PM to-dos, weekly status report.
 - **Insights** — dense per-person analytics + team sentiment.
@@ -33,6 +33,24 @@ npm test           # Vitest domain tests
 ```
 
 On Windows you can also double-click **`Launch PM Assistant.cmd`** (see [`LAUNCH.md`](./LAUNCH.md)), or install it from Chrome as a desktop PWA.
+
+## Download & use it yourself
+
+PM Assistant is for *any* PM, not just its author. Clone or download this repo, then:
+
+```bash
+npm install
+npm run dev        # open http://localhost:5173
+```
+
+On **first run** you'll be asked for your **name** and your project (no account, no login — your profile and all data live only on this computer). A fresh install ships with:
+
+- the full generic **11-week PM curriculum**, and
+- an **empty live-session program** — add your own sessions any time from **Settings → Live program sessions** (each is pinned to a coaching week).
+
+Your data autosaves to the browser and can be bound to a real file on disk (**Settings → Data & backups → Connect file**) so it survives browser-storage clears. Use **Export / Import** to move it between machines.
+
+> The author's personal cohort program lives in a git-ignored `src/seed/personal.ts` and is never part of what you download — so nobody else inherits someone else's schedule.
 
 ## Docs
 

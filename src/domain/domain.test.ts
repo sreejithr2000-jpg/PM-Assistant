@@ -8,6 +8,8 @@ import { workingDaysBetween } from './dates';
 import { buildMemberReport } from './report';
 import { computeSprints, currentSprint } from './sprints';
 import { migrate } from '../data/persistence';
+import { mergeCoaching, COACHING_BASE } from '../seed/coaching';
+import type { ProgramWeek } from '../data/types';
 
 // Anchor the demo to a fixed Tuesday so the relative dates are deterministic.
 const today = '2026-06-02';
@@ -161,14 +163,24 @@ describe('sprints', () => {
 });
 
 describe('coaching resources & migration', () => {
-  it('integrates an AI program session into every coaching week', () => {
-    for (const m of db.coaching) {
-      expect(m.session, `week ${m.weekNo} session`).toBeTruthy();
-      // the session shows up as a weekly goal ("Do this week")
-      expect(m.doThisWeek.some((d) => d.includes('📅'))).toBe(true);
-    }
-    expect(db.coaching.find((m) => m.weekNo === 7)?.session?.topic).toMatch(/Prompt Engineering/);
-    expect(db.coaching.find((m) => m.weekNo === 8)?.session?.presenter).toMatch(/Shuya/);
+  it('ships a base curriculum with no baked-in live sessions', () => {
+    // The generic build must not carry any cohort program — those are user data.
+    for (const m of db.coaching) expect(m.session, `week ${m.weekNo}`).toBeUndefined();
+  });
+
+  it('mergeCoaching() weaves user program sessions into the matching weeks', () => {
+    const program: ProgramWeek[] = [
+      { weekNo: 7, topic: 'Advanced Prompt Engineering', when: 'Mon, Jul 13 · 8pm', presenter: 'Mentor Mark',
+        learn: 'prompt patterns', do: '📅 Attend the session', resource: 'prompt engineering guide' },
+    ];
+    const merged = mergeCoaching(COACHING_BASE, program);
+    const wk7 = merged.find((m) => m.weekNo === 7)!;
+    expect(wk7.session?.topic).toMatch(/Prompt Engineering/);
+    expect(wk7.doThisWeek[0]).toContain('📅');          // the session "do" is surfaced first
+    expect(wk7.learn).toContain('prompt patterns');     // extra learn bullet appended
+    expect(wk7.resources.some((r) => /prompt-engineering-guide/.test(r.id))).toBe(true);
+    // weeks without a program entry are returned untouched (no session)
+    expect(merged.find((m) => m.weekNo === 1)!.session).toBeUndefined();
   });
 
   it('attaches an id and url to every resource', () => {
@@ -188,7 +200,7 @@ describe('coaching resources & migration', () => {
     const migrated = migrate({ ...old, coachingProgress: { 'w1-north-star-framework': true } });
     expect(migrated.coachingProgress['w1-north-star-framework']).toBe(true);
     expect(migrated.coaching).toHaveLength(11);
-    expect(migrated.schemaVersion).toBe(4);
+    expect(migrated.schemaVersion).toBe(5);
   });
 
   it('migrate() backfills meeting medium and editable type/medium lists', () => {

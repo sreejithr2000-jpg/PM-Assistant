@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useStore } from '../store/store';
-import { useClock, useToday } from '../store/selectors';
+import { useClock, useToday, useCoaching } from '../store/selectors';
 import { evaluateChecks, crossWeekNudges } from '../domain/coaching';
 import { sprintNumberForWeek } from '../domain/sprints';
 
@@ -9,9 +9,10 @@ export function Coaching() {
   const toggleResource = useStore((s) => s.toggleResource);
   const today = useToday();
   const clock = useClock();
+  const coaching = useCoaching();
   const [week, setWeek] = useState(clock.weekNo);
 
-  const module = db.coaching.find((m) => m.weekNo === week);
+  const module = coaching.find((m) => m.weekNo === week);
   const checks = module ? evaluateChecks(db, today, module.checks) : [];
   const nudges = crossWeekNudges(db, today);
 
@@ -20,7 +21,7 @@ export function Coaching() {
       <div className="topbar">
         <div><div className="crumb">Coaching</div><div className="tt">Your PM curriculum</div></div>
         <div className="top-actions" style={{ gap: 6 }}>
-          {db.coaching.map((m) => {
+          {coaching.map((m) => {
             const allReviewed = m.resources.length > 0 && m.resources.every((r) => db.coachingProgress[r.id]);
             return (
               <button key={m.weekNo} onClick={() => setWeek(m.weekNo)} title={allReviewed ? 'All resources reviewed' : undefined}

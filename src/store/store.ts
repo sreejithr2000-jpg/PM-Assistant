@@ -3,6 +3,7 @@ import type {
   DB, TeamMember, StandupEntry, RiskBlocker, ActionItem, Decision,
   PMTodo, Kudos, LeaveEntry, OneOnOne, Milestone, Project, Settings,
   WeeklyStatusReport, StandupQuestion, Meeting, AttendanceStatus, CeremonyGuide,
+  Profile, ProgramWeek,
 } from '../data/types';
 import { hydrate, localPersistence, migrate } from '../data/persistence';
 import { buildSeedDB, buildEmptyDB } from '../seed/seed';
@@ -41,6 +42,9 @@ interface StoreState {
   connectFile: () => Promise<void>;
   reconnectFile: () => Promise<void>;
 
+  // profile + live-session program
+  updateProfile: (patch: Partial<Profile>) => void;
+  updateProgram: (program: ProgramWeek[]) => void;
   // members
   addMember: (m: Omit<TeamMember, 'id'>) => void;
   updateMember: (id: string, patch: Partial<TeamMember>) => void;
@@ -116,6 +120,9 @@ export const useStore = create<StoreState>((set, get) => {
       if (raw) { const db = migrate(raw); localPersistence.save(db); set({ db, fileNeedsReconnect: false }); }
       else set({ fileNeedsReconnect: false });
     },
+
+    updateProfile: (patch) => apply((db) => { db.profile = { ...db.profile, ...patch }; }),
+    updateProgram: (program) => apply((db) => { db.program = program; }),
 
     addMember: (m) => apply((db) => { db.members.push({ ...m, id: uid() }); }),
     updateMember: (id, patch) => apply((db) => {

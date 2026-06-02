@@ -13,3 +13,7 @@ dev.err.log
 # data lives OUTSIDE the source tree (D:\PM-Assistant\) — never commit data
 *.db
 *.sqlite
+
+# personal overlay — the author's own name + cohort program. Stays local only,
+# so a fresh download ships with no baked-in program (see src/seed/coaching.ts).
+src/seed/personal.ts

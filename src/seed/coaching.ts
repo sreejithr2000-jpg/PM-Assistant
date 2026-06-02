@@ -1,4 +1,4 @@
-import type { CoachingModule, CoachingResource } from '../data/types';
+import type { CoachingModule, CoachingResource, ProgramWeek } from '../data/types';
 
 // Seeded from COACHING_CURRICULUM.md (feature N1). Each week → one module.
 // The `checks` ids are evaluated against live data in domain/coaching.ts (feature N2).
@@ -171,62 +171,41 @@ const RAW: RawModule[] = [
   },
 ];
 
-// ── Team AI PM program (live sessions woven into each coaching week) ──────────
-interface ProgramWeek { topic: string; when: string; presenter: string; learn: string; do: string; resource: string }
-const PROGRAM: Record<number, ProgramWeek> = {
-  1: { topic: 'AI 101 & program kick-off', when: 'Wed, Jun 3 · 8pm EST', presenter: 'Dr. Nancy Li',
-       learn: 'AI 101 — what ML & LLMs are, and where they actually help a PM',
-       do: '📅 Attend the live session: AI 101 & program kick-off (Wed Jun 3, 8pm EST · Dr. Nancy Li)',
-       resource: 'AI fundamentals for product managers' },
-  2: { topic: 'AI PM life cycle', when: 'Mon, Jun 8 · 8pm EST', presenter: 'Dr. Nancy Li',
-       learn: 'The AI product life cycle: data → model → evaluation → launch → monitoring',
-       do: '📅 Attend the live session: AI PM life cycle (Mon Jun 8, 8pm EST · Dr. Nancy Li)',
-       resource: 'AI product development life cycle' },
-  3: { topic: 'AI models and LLMs', when: 'Wed, Jun 17 · 8pm EST', presenter: 'Mentor Mark Walker',
-       learn: 'How LLMs work: tokens, context windows, embeddings, temperature',
-       do: '📅 Attend the live session: AI models and LLMs (Wed Jun 17, 8pm EST · Mentor Mark Walker)',
-       resource: 'how large language models work' },
-  4: { topic: 'Advanced AI', when: 'Mon, Jun 22 · 8pm EST', presenter: 'Mentor Mark Walker',
-       learn: 'Advanced AI for PMs: RAG vs fine-tuning, evals, guardrails & hallucination risk',
-       do: '📅 Attend the live session: Advanced AI (Mon Jun 22, 8pm EST · Mentor Mark)',
-       resource: 'RAG vs fine-tuning for AI products' },
-  5: { topic: 'Cross-functional team collaboration', when: 'Mon, Jun 29 · 8pm EST', presenter: 'Dr. Nancy Li & Mentor Mark',
-       learn: 'Leading cross-functional AI teams — data scientists, ML engineers, design & eng',
-       do: '📅 Attend the live session: Cross-functional team collaboration (Mon Jun 29, 8pm EST · Dr. Nancy & Mentor Mark)',
-       resource: 'cross-functional collaboration for AI product teams' },
-  6: { topic: 'Go-to-market strategy', when: 'Mon, Jul 6 · 8pm EST', presenter: 'Dr. Nancy Li',
-       learn: 'Go-to-market & positioning for an AI product',
-       do: '📅 Attend the live session: Go-to-market strategy (Mon Jul 6, 8pm EST · Dr. Nancy Li)',
-       resource: 'go-to-market strategy for AI products' },
-  7: { topic: 'Advanced Prompt Engineering', when: 'Mon, Jul 13 · 8pm EST', presenter: 'Mentor Mark Walker',
-       learn: 'Advanced prompt engineering: patterns, few-shot, chaining, and prompt evaluation',
-       do: '📅 Attend the live session: Advanced Prompt Engineering (Mon Jul 13, 8pm EST · Mentor Mark)',
-       resource: 'advanced prompt engineering guide' },
-  8: { topic: 'Prototyping & Building with Vibe Coding', when: 'Mon, Jul 20 · 8pm EST', presenter: 'Mentor Shuya Zong',
-       learn: 'Rapid AI prototyping ("vibe coding") to validate product ideas fast',
-       do: '📅 Attend the live session: Prototyping & Building with Vibe Coding (Mon Jul 20, 8pm EST · Mentor Shuya Zong)',
-       resource: 'AI prototyping and vibe coding' },
-  9: { topic: 'AI Product Portfolio Development', when: 'Mon, Jul 27 · 8pm EST', presenter: 'Dr. Nancy Li',
-       learn: 'Building an AI PM portfolio: case studies that show product judgment',
-       do: '📅 Attend the live session: AI Product Portfolio Development (Mon Jul 27, 8pm EST · Dr. Nancy Li)',
-       resource: 'AI product manager portfolio examples' },
-  10: { topic: 'PM interview questions & answers', when: 'Mon, Aug 3 · 8pm EST', presenter: 'Dr. Nancy Li',
-       learn: 'PM interview prep: product sense, AI case studies, behavioral (STAR)',
-       do: '📅 Attend the live session: PM interview Q&A (Mon Aug 3, 8pm EST · Dr. Nancy Li)',
-       resource: 'product manager interview questions' },
-  11: { topic: '1:1 Resume Review', when: 'On-demand from Mon, Aug 10', presenter: 'Dr. Nancy Li (1:1)',
-       learn: 'PM resume: framing impact with metrics; tailoring for AI PM roles',
-       do: '📅 Book your 1:1 resume review (on-demand from Mon Aug 10 · Dr. Nancy Li)',
-       resource: 'product manager resume tips' },
-};
+// ── Base curriculum (code — shipped to everyone) ─────────────────────────────
+// The generic 11-week PM curriculum. No live sessions are baked in here; those
+// are user data (DB.program) merged in at display time via mergeCoaching().
+export const COACHING_BASE: CoachingModule[] = RAW.map((m) => ({
+  ...m,
+  resources: m.resources.map((label) => toResource(m.weekNo, label)),
+}));
 
-export const COACHING: CoachingModule[] = RAW.map((m) => {
-  const p = PROGRAM[m.weekNo];
-  return {
-    ...m,
-    session: p ? { topic: p.topic, when: p.when, presenter: p.presenter } : undefined,
-    learn: p ? [...m.learn, p.learn] : m.learn,
-    doThisWeek: p ? [p.do, ...m.doThisWeek] : m.doThisWeek,
-    resources: [...m.resources, ...(p ? [p.resource] : [])].map((label) => toResource(m.weekNo, label)),
-  };
-});
+// ── Personal overlay (optional, never committed) ─────────────────────────────
+// `src/seed/personal.ts` is git-ignored. When the file is present (only on the
+// author's machine) it carries their cohort program + name; on a fresh clone the
+// glob resolves to {} and these fall back to empty — so nothing personal ships.
+const personalMods = import.meta.glob('./personal.ts', { eager: true }) as Record<
+  string,
+  { MY_PROGRAM?: ProgramWeek[]; MY_PROFILE_NAME?: string }
+>;
+const personal = Object.values(personalMods)[0];
+export const MY_PROGRAM: ProgramWeek[] = personal?.MY_PROGRAM ?? [];
+export const MY_PROFILE_NAME: string = personal?.MY_PROFILE_NAME ?? '';
+
+// ── Merge: weave user program sessions into the base curriculum ───────────────
+// For a week with a session: pin the session, append its extra learn bullet,
+// surface its "do" first, and add its resource. Weeks without a session are
+// returned untouched. This reproduces the previous baked-in behavior exactly,
+// but now driven by editable data rather than hardcoded curriculum.
+export function mergeCoaching(base: CoachingModule[], program: ProgramWeek[]): CoachingModule[] {
+  return base.map((m) => {
+    const p = program.find((x) => x.weekNo === m.weekNo);
+    if (!p) return m;
+    return {
+      ...m,
+      session: { topic: p.topic, when: p.when, presenter: p.presenter },
+      learn: p.learn ? [...m.learn, p.learn] : m.learn,
+      doThisWeek: p.do ? [p.do, ...m.doThisWeek] : m.doThisWeek,
+      resources: p.resource ? [...m.resources, toResource(m.weekNo, p.resource)] : m.resources,
+    };
+  });
+}

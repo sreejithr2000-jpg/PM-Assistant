@@ -1,19 +1,27 @@
 import type { DB } from './types';
 import { buildEmptyDB, DEFAULT_THRESHOLDS, DEFAULT_MEETING_TYPES, DEFAULT_MEETING_MEDIUMS } from '../seed/seed';
-import { COACHING } from '../seed/coaching';
+import { COACHING_BASE, MY_PROGRAM, MY_PROFILE_NAME } from '../seed/coaching';
 import { defaultCeremonies } from '../seed/ceremonies';
 
 // Lightweight migration (ARCHITECTURE §4): backfill fields added after a DB was
-// first saved, and refresh the static coaching curriculum to the latest shape.
-// Curriculum content is code, not user data, so it's always taken from COACHING;
-// only `coachingProgress` (the user's reviewed-resource ticks) is preserved.
+// first saved, and refresh the static base curriculum to the latest shape.
+// Curriculum content is code, so `coaching` is always taken from COACHING_BASE;
+// only `coachingProgress` (reviewed ticks) and `program` (the user's editable
+// live sessions) are user data and preserved.
+//
+// `profile` and `program` are backfilled from the personal overlay ONLY when they
+// are absent (a DB saved before this change). On the author's machine that overlay
+// is populated, so their name + cohort program are restored seamlessly; on a fresh
+// install the overlay is empty, so new users start with a blank name and no program.
 export function migrate(db: DB): DB {
   const s = db.settings ?? ({} as DB['settings']);
   return {
     ...db,
+    profile: db.profile ?? { name: MY_PROFILE_NAME },
     meetings: (db.meetings ?? []).map((m) => ({ ...m, medium: m.medium ?? 'In person' })),
     attendance: db.attendance ?? [],
-    coaching: COACHING,
+    coaching: COACHING_BASE,
+    program: db.program ?? [...MY_PROGRAM],
     coachingProgress: db.coachingProgress ?? {},
     ceremonies: db.ceremonies?.length ? db.ceremonies : defaultCeremonies(),
     weeklyReports: db.weeklyReports ?? [],
@@ -24,7 +32,7 @@ export function migrate(db: DB): DB {
       meetingMediums: s.meetingMediums ?? [...DEFAULT_MEETING_MEDIUMS],
       sprintLengthWeeks: s.sprintLengthWeeks ?? 2,
     },
-    schemaVersion: 4,
+    schemaVersion: 5,
   };
 }
 
