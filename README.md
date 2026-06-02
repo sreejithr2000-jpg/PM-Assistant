@@ -4,6 +4,8 @@ A **PM operating system + coach** — a local-first web app that helps a Product
 
 > Pure-browser, installable PWA. No backend, no accounts, no cloud — your data never leaves your machine.
 
+**▶ Use it now: https://sreejithr2000-jpg.github.io/PM-Assistant/** — nothing to install. Open the link, enter your name, and you're set. In Chrome or Edge you can also click the install icon in the address bar to keep it as a desktop app.
+
 ## Features
 
 - **Home** — daily roll-up: Week N of M · Sprint X of Y, standup checklist, today's flags, blockers, actions due, sentiment, milestones.
@@ -20,7 +22,9 @@ A **PM operating system + coach** — a local-first web app that helps a Product
 
 ## Getting started
 
-You'll need [Node.js](https://nodejs.org) 18 or newer. Then:
+The easiest way to use PM Assistant is the hosted version above — no setup at all.
+
+To run it locally (for development, or to keep everything fully offline) you'll need [Node.js](https://nodejs.org) 18 or newer. Then:
 
 ```bash
 npm install
@@ -53,6 +57,10 @@ React 18 · Vite · TypeScript · Zustand · hand-written CSS · Vitest. In-memo
 - [`ARCHITECTURE.md`](./ARCHITECTURE.md) — architecture & build plan
 - [`COACHING_CURRICULUM.md`](./COACHING_CURRICULUM.md) · [`STANDUP_TEMPLATE.md`](./STANDUP_TEMPLATE.md) — seed content
 - [`LAUNCH.md`](./LAUNCH.md) — opening it from your desktop
+
+## License
+
+[MIT](./LICENSE) — free to use, modify, and share.
 
 ---
 
