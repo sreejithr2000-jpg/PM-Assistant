@@ -1,6 +1,6 @@
 # PM Assistant
 
-A personal **PM operating system + coach** — a single-user, local-first, $0 web app that helps a first-time Product Manager lead a small cross-functional team through an 11-week product build. It complements JIRA/Confluence: those track *the work*; PM Assistant handles the softer, easily-missed layer of *being a good PM* — running consistent standups, closing the loop on commitments, surfacing what's slipping, and coaching the PM to grow week by week.
+A **PM operating system + coach** — a local-first web app that helps a Product Manager lead a small cross-functional team through an 11-week product build. It complements JIRA/Confluence: those track *the work*; PM Assistant handles the softer, easily-missed layer of *being a good PM* — running consistent standups, closing the loop on commitments, surfacing what's slipping, and coaching you to grow week by week.
 
 > Pure-browser, installable PWA. No backend, no accounts, no cloud — your data never leaves your machine.
 
@@ -18,39 +18,34 @@ A personal **PM operating system + coach** — a single-user, local-first, $0 we
 - **Reports** — per-person developmental reports with a private/shared boundary, Markdown + print-to-PDF.
 - **Search**, **Settings**, durable file storage, backups.
 
+## Getting started
+
+You'll need [Node.js](https://nodejs.org) 18 or newer. Then:
+
+```bash
+npm install
+npm run dev        # open the URL it prints (http://localhost:5173 by default)
+```
+
+On **first run** you'll be asked for your **name** and your project — no account, no login. Everything you enter stays on this computer.
+
+You get the full **11-week PM curriculum** out of the box. If your project has live sessions, classes, or mentor calls tied to specific weeks, add them from **Settings → Live program sessions** and they'll show up in the matching Coaching week.
+
+Your data autosaves in the browser, and you can bind it to a real file on disk (**Settings → Data & backups → Connect file**) so it survives a browser-storage clear. Use **Export / Import** to keep backups or move your data between machines.
+
+On Windows you can also double-click **`Launch PM Assistant.cmd`** (see [`LAUNCH.md`](./LAUNCH.md)), or install it from Chrome/Edge as a desktop app.
+
+### Other commands
+
+```bash
+npm run build      # production build
+npm run preview    # serve the production build locally
+npm test           # run the test suite
+```
+
 ## Tech
 
 React 18 · Vite · TypeScript · Zustand · hand-written CSS · Vitest. In-memory store with a swappable persistence layer (localStorage mirror + File System Access durable file), pure/testable domain logic (flags, trends, coaching checks, report builder), and schema migrations.
-
-## Run it
-
-```bash
-npm install
-npm run dev        # http://localhost:5173
-npm run build      # production build
-npm run preview    # serve the build (also :5173)
-npm test           # Vitest domain tests
-```
-
-On Windows you can also double-click **`Launch PM Assistant.cmd`** (see [`LAUNCH.md`](./LAUNCH.md)), or install it from Chrome as a desktop PWA.
-
-## Download & use it yourself
-
-PM Assistant is for *any* PM, not just its author. Clone or download this repo, then:
-
-```bash
-npm install
-npm run dev        # open http://localhost:5173
-```
-
-On **first run** you'll be asked for your **name** and your project (no account, no login — your profile and all data live only on this computer). A fresh install ships with:
-
-- the full generic **11-week PM curriculum**, and
-- an **empty live-session program** — add your own sessions any time from **Settings → Live program sessions** (each is pinned to a coaching week).
-
-Your data autosaves to the browser and can be bound to a real file on disk (**Settings → Data & backups → Connect file**) so it survives browser-storage clears. Use **Export / Import** to move it between machines.
-
-> The author's personal cohort program lives in a git-ignored `src/seed/personal.ts` and is never part of what you download — so nobody else inherits someone else's schedule.
 
 ## Docs
 
@@ -61,4 +56,4 @@ Your data autosaves to the browser and can be bound to a real file on disk (**Se
 
 ---
 
-Local-first and private by construction: there is no server and no analytics. Built at $0.
+Local-first and private by design: there is no server and no analytics.
