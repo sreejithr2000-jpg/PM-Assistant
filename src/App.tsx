@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import { useStore } from './store/store';
 import { AppShell } from './components/AppShell';
 import { Setup } from './screens/Setup';
@@ -21,7 +21,7 @@ export function App() {
   if (needsSetup) return <Setup />;
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route element={<AppShell />}>
           <Route index element={<Home />} />
@@ -38,6 +38,6 @@ export function App() {
           <Route path="settings" element={<Settings />} />
         </Route>
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
