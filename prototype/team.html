@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PM Assistant — Team</title>
+<link rel="stylesheet" href="app.css">
+<style>
+  .roster .m{display:flex;align-items:center;gap:12px;padding:12px;border-radius:13px;cursor:pointer;transition:background .2s;border:1px solid transparent}
+  .roster .m:hover{background:var(--cream-2)}
+  .roster .m.sel{background:var(--card);border-color:var(--line);box-shadow:0 8px 20px -16px rgba(42,37,32,.5)}
+  .roster .m .nm{font-weight:600;font-size:14.5px}.roster .m .rl{font-size:12.5px;color:var(--ink-3)}
+  .roster .m .fl{margin-left:auto;font-size:14px}
+  .tl{position:relative;padding-left:26px}
+  .tl::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .tl .ev{position:relative;padding:10px 0}
+  .tl .ev::before{content:"";position:absolute;left:-23px;top:14px;width:12px;height:12px;border-radius:50%;background:var(--card);border:2px solid var(--accent)}
+  .tl .ev .d{font-size:12px;color:var(--ink-3)}
+  .tl .ev .t{font-size:14px;margin-top:1px}
+  .tl .ev .t b{font-weight:600}
+  .meter{display:flex;align-items:center;gap:10px;margin:6px 0}
+  .meter .lab{font-size:13px;color:var(--ink-2);width:120px}
+  .meter .bar{flex:1}
+  .meter .val{font-size:13px;font-weight:600;width:40px;text-align:right}
+  .moodrow{display:flex;gap:5px;font-size:18px}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="s-brand"><span class="blob"></span>PM Assistant</div>
+    <div class="wk-badge"><div class="lbl">Today</div><div class="wk">Week <b>4</b> <span style="color:var(--ink-3);font-weight:500">/ 11</span></div><div class="wk-bar"><i></i></div></div>
+    <nav class="nav">
+      <a href="home.html"><span class="ico">◐</span>Home</a>
+      <a class="on" href="team.html"><span class="ico">👥</span>Team<span class="count">7</span></a>
+      <a href="coaching.html"><span class="ico">🧭</span>Coaching</a>
+      <a href="project.html"><span class="ico">🎯</span>Project</a>
+    </nav>
+    <a class="side-cta" href="standup.html">☀️ Run standup</a>
+    <div class="side-foot"><span class="av">S</span><div>Sreejith<br><span style="color:var(--ink-3);font-size:12px">Product Manager</span></div></div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div><div class="crumb">Team</div><div class="tt">Your team — 7 people</div></div>
+      <div class="top-actions"><div class="search">🔍 Find a person…</div><button class="btn btn-ghost">＋ Add member</button></div>
+    </div>
+
+    <div class="content">
+      <div class="row" style="grid-template-columns:300px 1fr;gap:24px;align-items:start">
+        <!-- ROSTER -->
+        <div class="panel reveal d1" style="position:sticky;top:92px">
+          <div class="panel-h"><h3 style="font-size:15px">Roster</h3><a href="#">Roles</a></div>
+          <div class="panel-b roster" style="padding:10px 12px">
+            <div class="m sel"><span class="av sm">AK</span><div><div class="nm">Aisha Khan</div><div class="rl">Designer</div></div><span class="fl">⚠️</span></div>
+            <div class="m"><span class="av sm">MR</span><div><div class="nm">Maya Rao</div><div class="rl">Designer</div></div></div>
+            <div class="m"><span class="av sm c3">RP</span><div><div class="nm">Ravi Patel</div><div class="rl">Developer</div></div></div>
+            <div class="m"><span class="av sm c2">LC</span><div><div class="nm">Leo Chen</div><div class="rl">Developer</div></div></div>
+            <div class="m"><span class="av sm c2">TN</span><div><div class="nm">Tom Nguyen</div><div class="rl">Developer</div></div></div>
+            <div class="m"><span class="av sm c3">NH</span><div><div class="nm">Nadia Hassan</div><div class="rl">Data Scientist</div></div><span class="fl">💛</span></div>
+            <div class="m"><span class="av sm c4">SO</span><div><div class="nm">Sam Okafor</div><div class="rl">Data Scientist</div></div></div>
+          </div>
+        </div>
+
+        <!-- PERSON DETAIL -->
+        <div style="display:flex;flex-direction:column;gap:18px">
+          <!-- header card -->
+          <div class="card reveal d2" style="display:flex;align-items:center;gap:18px">
+            <span class="av lg">AK</span>
+            <div style="flex:1">
+              <div class="display" style="font-weight:600;font-size:24px;letter-spacing:-.02em">Aisha Khan</div>
+              <div style="color:var(--ink-2);font-size:14px">Designer · joined Week 1 · <span class="pill peach">1:1 overdue</span></div>
+              <div style="color:var(--ink-2);font-size:13px;margin-top:8px">🌱 Growth goal: <b>grow into design-lead responsibilities this project</b></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <button class="btn btn-dark">☕ Schedule 1:1</button>
+              <button class="btn btn-ghost">📄 Generate report</button>
+            </div>
+          </div>
+
+          <!-- stat strip -->
+          <div class="row r3">
+            <div class="card stat reveal d3"><div class="k">Attendance</div><div class="v mono-num">96<small>%</small></div><div class="meta">23 / 24 meetings</div></div>
+            <div class="card stat reveal d3"><div class="k">Tracker updated</div><div class="v mono-num">88<small>%</small></div><div class="meta">last 3 weeks</div></div>
+            <div class="card stat reveal d4"><div class="k">Kudos</div><div class="v mono-num">4</div><div class="meta">💛 well recognised</div></div>
+          </div>
+
+          <div class="row r2-1" style="align-items:start">
+            <!-- timeline -->
+            <div class="panel reveal d3">
+              <div class="panel-h"><h3>🧵 Timeline</h3><span class="pill blue">this week</span></div>
+              <div class="panel-b" style="padding:14px 20px">
+                <div class="tl">
+                  <div class="ev"><div class="d">Today · Week 4</div><div class="t">Standup 🙂 — <b>blocker:</b> waiting on marketing copy</div></div>
+                  <div class="ev"><div class="d">Yesterday</div><div class="t">Standup 😄 — shipped onboarding flow</div></div>
+                  <div class="ev"><div class="d">2 days ago</div><div class="t">Kudos: <b>“great handoff to Ravi”</b> 🎉</div></div>
+                  <div class="ev"><div class="d">Week 3</div><div class="t">Sprint planning — present ✓</div></div>
+                  <div class="ev"><div class="d">Week 2</div><div class="t">1:1 — discussed design-lead growth path</div></div>
+                </div>
+              </div>
+            </div>
+            <!-- mood + 1:1 -->
+            <div style="display:flex;flex-direction:column;gap:18px">
+              <div class="panel reveal d4">
+                <div class="panel-h"><h3 style="font-size:15px">Mood trend</h3></div>
+                <div class="panel-b" style="padding:16px 20px">
+                  <div class="moodrow">😄 🙂 😄 🙂 🙂</div>
+                  <p style="font-size:13px;color:var(--ink-2);margin-top:10px">Steady & positive across the last 5 standups.</p>
+                </div>
+              </div>
+              <div class="card reveal d5" style="background:var(--accent-tint);border-color:var(--line)">
+                <div style="font-size:13px;font-weight:600;color:var(--accent-deep)">⚠️ Needs attention</div>
+                <p style="font-size:14px;color:var(--ink);margin-top:6px;line-height:1.5">Your last 1:1 with Aisha was <b>15 days ago</b>. She's working toward a design-lead role — a check-in would help.</p>
+                <button class="btn btn-dark" style="margin-top:12px">Schedule now</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script>
+  document.querySelectorAll('.roster .m').forEach(m=>m.addEventListener('click',()=>{
+    document.querySelectorAll('.roster .m').forEach(x=>x.classList.remove('sel'));m.classList.add('sel');
+  }));
+</script>
+</body>
+</html>

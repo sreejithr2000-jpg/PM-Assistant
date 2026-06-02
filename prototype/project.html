@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PM Assistant — Project</title>
+<link rel="stylesheet" href="app.css">
+<style>
+  .metric{display:flex;align-items:baseline;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}
+  .metric:last-child{border-bottom:none}
+  .metric .v{font-family:var(--display);font-weight:700;font-size:18px;color:var(--accent-deep)}
+  .metric .t{font-size:14px;color:var(--ink-2)}
+  .tline{display:flex;gap:6px;margin:18px 0 6px}
+  .tline .seg{flex:1;height:36px;border-radius:8px;background:var(--cream-3);position:relative;display:grid;place-items:center;font-size:11px;font-weight:600;color:var(--ink-3)}
+  .tline .seg.done{background:var(--green-tint);color:#3f7a3f}
+  .tline .seg.cur{background:var(--accent);color:#3a2a1c;box-shadow:0 8px 18px -10px var(--accent-deep)}
+  .ms{display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid var(--line)}
+  .ms:last-child{border-bottom:none}
+  .ms .wk{font-family:var(--display);font-weight:700;font-size:13px;color:var(--ink-3);width:56px}
+  .ms .nm{font-size:14.5px;font-weight:500}
+  .ms .st{margin-left:auto}
+  .risk{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
+  .risk:last-child{border-bottom:none}
+  .risk .sev{width:8px;height:34px;border-radius:5px}
+  .risk .sev.hi{background:var(--red)}.risk .sev.md{background:var(--amber)}.risk .sev.lo{background:var(--blue)}
+  .risk .nm{font-size:14px;font-weight:500}.risk .nm small{display:block;color:var(--ink-3);font-size:12px;font-weight:400}
+  .risk .own{margin-left:auto;font-size:12.5px;color:var(--ink-2)}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="s-brand"><span class="blob"></span>PM Assistant</div>
+    <div class="wk-badge"><div class="lbl">Today</div><div class="wk">Week <b>4</b> <span style="color:var(--ink-3);font-weight:500">/ 11</span></div><div class="wk-bar"><i></i></div></div>
+    <nav class="nav">
+      <a href="home.html"><span class="ico">◐</span>Home</a>
+      <a href="team.html"><span class="ico">👥</span>Team<span class="count">7</span></a>
+      <a href="coaching.html"><span class="ico">🧭</span>Coaching</a>
+      <a class="on" href="project.html"><span class="ico">🎯</span>Project</a>
+    </nav>
+    <a class="side-cta" href="standup.html">☀️ Run standup</a>
+    <div class="side-foot"><span class="av">S</span><div>Sreejith<br><span style="color:var(--ink-3);font-size:12px">Product Manager</span></div></div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div><div class="crumb">Project</div><div class="tt">Project Atlas</div></div>
+      <div class="top-actions"><span class="rag green"><span class="dot"></span>On track</span><button class="btn btn-dark">📤 Weekly status report</button></div>
+    </div>
+
+    <div class="content">
+      <!-- timeline -->
+      <div class="card reveal d1">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+          <div><div class="display" style="font-weight:600;font-size:20px">11-week timeline</div><div style="color:var(--ink-2);font-size:14px">Apr 6 → Jun 21 · <b>Week 4 of 11</b></div></div>
+          <span class="pill green">36% elapsed · on track</span>
+        </div>
+        <div class="tline">
+          <div class="seg done">1</div><div class="seg done">2</div><div class="seg done">3</div>
+          <div class="seg cur">4</div>
+          <div class="seg">5</div><div class="seg">6</div><div class="seg">7</div><div class="seg">8</div><div class="seg">9</div><div class="seg">10</div><div class="seg">11</div>
+        </div>
+      </div>
+
+      <div class="row r2-1 mt3" style="align-items:start">
+        <!-- goal + metrics -->
+        <div class="panel reveal d2">
+          <div class="panel-h"><h3>🎯 Goal & success metrics</h3><a href="#">Edit</a></div>
+          <div class="panel-b" style="padding:16px 20px">
+            <p class="display" style="font-weight:500;font-size:18px;letter-spacing:-.01em;line-height:1.4;margin-bottom:6px">Ship a self-serve onboarding experience that gets a new user to first value in under 3 minutes.</p>
+            <div style="margin-top:14px">
+              <div class="metric"><span class="v">&lt;3 min</span><span class="t">time to first value</span></div>
+              <div class="metric"><span class="v">≥60%</span><span class="t">activation rate in first session</span></div>
+              <div class="metric"><span class="v">0 P1</span><span class="t">critical bugs at launch</span></div>
+            </div>
+          </div>
+        </div>
+        <!-- status report -->
+        <div class="card reveal d3" style="background:var(--accent-tint);border-color:var(--line)">
+          <div style="font-size:13px;font-weight:600;color:var(--accent-deep)">📤 This week's status</div>
+          <div class="rag green" style="margin-top:10px;font-size:16px"><span class="dot"></span>Green — on track</div>
+          <p style="font-size:13.5px;color:var(--ink);margin-top:10px;line-height:1.5"><b>Highlights:</b> onboarding flow shipped. <b>Risks:</b> 1 aging blocker (API access). <b>Asks:</b> nudge marketing on copy.</p>
+          <button class="btn btn-dark" style="margin-top:12px">Generate full report</button>
+        </div>
+      </div>
+
+      <div class="row r1-1 mt4" style="align-items:start">
+        <!-- milestones -->
+        <div class="panel reveal d3">
+          <div class="panel-h"><h3>📍 Milestones</h3><a href="#">＋ Add</a></div>
+          <div class="panel-b" style="padding:6px 20px 14px">
+            <div class="ms"><span class="wk">WK 1</span><span class="nm">Kickoff & success metrics</span><span class="st pill green">done</span></div>
+            <div class="ms"><span class="wk">WK 3</span><span class="nm">Discovery complete</span><span class="st pill green">done</span></div>
+            <div class="ms"><span class="wk">WK 4–6</span><span class="nm">Core build — onboarding</span><span class="st pill amber">in progress</span></div>
+            <div class="ms"><span class="wk">WK 9</span><span class="nm">Integration checkpoint</span><span class="st pill blue">upcoming</span></div>
+            <div class="ms"><span class="wk">WK 11</span><span class="nm">Launch</span><span class="st pill blue">upcoming</span></div>
+          </div>
+        </div>
+        <!-- risks -->
+        <div class="panel reveal d4">
+          <div class="panel-h"><h3>🗂️ Risk register</h3><span class="pill amber">1 unassigned</span></div>
+          <div class="panel-b" style="padding:6px 20px 14px">
+            <div class="risk"><span class="sev hi"></span><div class="nm">API access blocking onboarding<small>open · aging 4 days</small></div><span class="own">Ravi</span></div>
+            <div class="risk"><span class="sev md"></span><div class="nm">Marketing copy not finalised<small>open · raised today</small></div><span class="own pill amber" style="font-weight:600">unassigned</span></div>
+            <div class="risk"><span class="sev lo"></span><div class="nm">Data schema may change<small>monitoring</small></div><span class="own">Nadia</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

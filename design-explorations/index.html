@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PM Assistant — Design Explorations</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"Hanken Grotesk",sans-serif;background:#0E0F12;color:#F2F1EE;line-height:1.5;-webkit-font-smoothing:antialiased;padding:60px 28px}
+  .wrap{max-width:1020px;margin:0 auto}
+  .mono{font-family:"JetBrains Mono",monospace}
+  h1{font-size:34px;font-weight:700;letter-spacing:-.03em}
+  .sub{color:#9A9A9F;margin-top:10px;max-width:60ch}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px}
+  .card{background:#17181C;border:1px solid #26282E;border-radius:16px;overflow:hidden;text-decoration:none;color:inherit;transition:transform .2s,border-color .2s}
+  .card:hover{transform:translateY(-4px);border-color:#3A3D45}
+  .swatch{height:120px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;letter-spacing:-.01em}
+  .a{background:#F6F2EA;color:#9A4A2F;font-family:Georgia,serif;font-style:italic}
+  .b{background:#fff;color:#0A84FF}
+  .c{background:#FBF6EF;color:#C9743F}
+  .card .body{padding:18px}
+  .card .tag{font-size:11px;color:#7C7F87;letter-spacing:.05em}
+  .card h3{font-size:18px;font-weight:600;margin:4px 0 8px}
+  .card p{font-size:13.5px;color:#A4A6AD}
+  .card .meta{margin-top:14px;font-size:11.5px;color:#6C6F77}
+  .note{margin-top:40px;font-size:13.5px;color:#7C7F87;border-top:1px solid #26282E;padding-top:20px}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>PM Assistant — Design Explorations</h1>
+    <p class="sub">Three differentiated landing-page directions. All clean, minimal-color, clear-typography, Apple-like — differing in voice, not noise. Open each, then pick one to iterate on.</p>
+    <div class="grid">
+      <a class="card" href="option-a-editorial.html">
+        <div class="swatch a">Aa 01/11</div>
+        <div class="body">
+          <div class="tag mono">OPTION A</div>
+          <h3>Editorial Calm</h3>
+          <p>Serif display (Fraunces), warm paper, magazine columns, oversized week numerals. Reflective and human.</p>
+          <div class="meta">Accent: muted clay · Serif + Public Sans</div>
+        </div>
+      </a>
+      <a class="card" href="option-b-precision.html">
+        <div class="swatch b">▦ Aa</div>
+        <div class="body">
+          <div class="tag mono">OPTION B</div>
+          <h3>Quiet Precision</h3>
+          <p>Grotesk + mono, pure white, a real dashboard preview, single Apple-blue accent. Engineered and exact.</p>
+          <div class="meta">Accent: Apple blue · Hanken + JetBrains Mono</div>
+        </div>
+      </a>
+      <a class="card" href="option-c-warm.html">
+        <div class="swatch c">◖ Aa</div>
+        <div class="body">
+          <div class="tag mono">OPTION C</div>
+          <h3>Warm Assistant</h3>
+          <p>Rounded humanist type, soft cream, gentle peach, a friendly standup-chat card. A personal companion.</p>
+          <div class="meta">Accent: soft peach · Bricolage + Figtree</div>
+        </div>
+      </a>
+    </div>
+    <p class="note">Tip: open this folder's <span class="mono">index.html</span> in a browser, click into each, then tell me which direction to refine.</p>
+  </div>
+</body>
+</html>

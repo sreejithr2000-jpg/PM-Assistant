@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PM Assistant — Home</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="s-brand"><span class="blob"></span>PM Assistant</div>
+    <div class="wk-badge">
+      <div class="lbl">Today</div>
+      <div class="wk">Week <b>4</b> <span style="color:var(--ink-3);font-weight:500">/ 11</span></div>
+      <div class="wk-bar"><i></i></div>
+    </div>
+    <nav class="nav">
+      <a class="on" href="home.html"><span class="ico">◐</span>Home</a>
+      <a href="team.html"><span class="ico">👥</span>Team<span class="count">7</span></a>
+      <a href="insights.html"><span class="ico">📊</span>Insights</a>
+      <a href="coaching.html"><span class="ico">🧭</span>Coaching</a>
+      <a href="project.html"><span class="ico">🎯</span>Project</a>
+    </nav>
+    <a class="side-cta" href="standup.html">☀️ Run standup</a>
+    <div class="side-foot"><span class="av">S</span><div>Sreejith<br><span style="color:var(--ink-3);font-size:12px">Product Manager</span></div></div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="topbar">
+      <div><div class="crumb">Home</div><div class="tt">Monday, June 1</div></div>
+      <div class="top-actions">
+        <div class="search">🔍 Search people, notes…</div>
+        <a class="btn btn-p" href="standup.html">☀️ Run standup</a>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="reveal d1">
+        <div class="greet">Good morning, Sreejith 👋</div>
+        <div class="greet-sub">You're in <b>Week 4 of 11</b> — building momentum. 4 standups still to do, and a couple of things worth a look.</div>
+      </div>
+
+      <!-- STAT ROW -->
+      <div class="row r4 mt3">
+        <div class="card stat reveal d2"><div class="k">Standups today</div><div class="v mono-num">3<small>/7</small></div><div class="meta"><div class="bar" style="flex:1"><i style="width:43%"></i></div></div></div>
+        <div class="card stat reveal d3"><div class="k">Open blockers</div><div class="v mono-num">2</div><div class="meta">🧱 1 aging past 3 days</div></div>
+        <div class="card stat reveal d4"><div class="k">Action items due</div><div class="v mono-num">2</div><div class="meta">⏳ both due today</div></div>
+        <div class="card stat reveal d5"><div class="k">Project status</div><div class="v"><span class="rag green" style="font-size:22px"><span class="dot"></span>On track</span></div><div class="meta">Milestone 2 of 5</div></div>
+      </div>
+
+      <!-- MAIN GRID -->
+      <div class="row r2-1 mt4">
+        <!-- left: flags -->
+        <div class="panel reveal d3">
+          <div class="panel-h"><h3>🔔 Today's flags</h3><span class="pill peach">4 to review</span></div>
+          <div class="panel-b">
+            <div class="flag"><span class="e">☕</span><div class="txt">Time for a 1:1 with <b>Aisha</b><small>Last 1:1 was 15 days ago — overdue</small></div><span class="age">15d</span><a class="go" href="team.html">Schedule →</a></div>
+            <div class="flag"><span class="e">🧱</span><div class="txt"><b>API access</b> blocker is aging<small>Owned by Ravi · no movement in 4 days</small></div><span class="age">4d</span><a class="go" href="#">Open →</a></div>
+            <div class="flag"><span class="e">💛</span><div class="txt"><b>Nadia's</b> mood has dipped<small>Low for 3 standups running — worth checking in</small></div><span class="age">3d</span><a class="go" href="team.html">Check in →</a></div>
+            <div class="flag"><span class="e">✅</span><div class="txt"><b>2 action items</b> due today<small>“Finalise design tokens”, “Confirm data schema”</small></div><span class="age">now</span><a class="go" href="#">View →</a></div>
+          </div>
+        </div>
+
+        <!-- right column -->
+        <div class="row" style="gap:18px">
+          <!-- standup checklist -->
+          <div class="panel reveal d4">
+            <div class="panel-h"><h3>☀️ Standup checklist</h3><a href="standup.html">Run →</a></div>
+            <div class="panel-b">
+              <div class="checks">
+                <div class="check done"><span class="tick">✓</span><div><div class="nm">Ravi Patel</div><div class="role">Developer</div></div><div class="right"><span class="mood">🙂</span></div></div>
+                <div class="check done"><span class="tick">✓</span><div><div class="nm">Maya Rao</div><div class="role">Designer</div></div><div class="right"><span class="mood">😄</span></div></div>
+                <div class="check done"><span class="tick">✓</span><div><div class="nm">Leo Chen</div><div class="role">Developer</div></div><div class="right"><span class="mood">🙂</span></div></div>
+                <div class="check"><span class="tick"></span><div><div class="nm">Aisha Khan</div><div class="role">Designer</div></div><div class="right"><span class="pill peach">pending</span></div></div>
+                <div class="check"><span class="tick"></span><div><div class="nm">Nadia Hassan</div><div class="role">Data Scientist</div></div><div class="right"><span class="pill peach">pending</span></div></div>
+                <div class="check"><span class="tick"></span><div><div class="nm">Tom Nguyen</div><div class="role">Developer</div></div><div class="right"><span class="pill peach">pending</span></div></div>
+                <div class="check"><span class="tick"></span><div><div class="nm">Sam Okafor</div><div class="role">Data Scientist</div></div><div class="right"><span class="pill peach">pending</span></div></div>
+              </div>
+            </div>
+          </div>
+          <!-- coaching tip -->
+          <div class="card reveal d5" style="background:linear-gradient(165deg,var(--ink),#3a332b);color:var(--cream);border:none">
+            <div style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)">Week 4 coaching</div>
+            <div class="display" style="font-weight:600;font-size:19px;margin:8px 0 8px;letter-spacing:-.01em">Run a premortem</div>
+            <p style="font-size:14px;color:#D9CFC4;line-height:1.5">Imagine it's Week 11 and the project failed. Work backwards to the causes — then turn each into a tracked risk today.</p>
+            <a class="btn" style="background:var(--accent);color:#3a2a1c;margin-top:14px" href="coaching.html">Open this week →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- bottom: sentiment + milestones -->
+      <div class="row r1-1 mt4">
+        <div class="panel reveal d4">
+          <div class="panel-h"><h3>💛 Team sentiment</h3><span class="pill green">Mostly good</span></div>
+          <div class="panel-b" style="padding-top:18px">
+            <div style="display:flex;align-items:flex-end;gap:10px;height:90px">
+              <div style="flex:1;text-align:center"><div class="bar green" style="height:60px;width:14px;margin:0 auto;border-radius:8px"><i style="height:100%"></i></div><small style="font-size:11px;color:var(--ink-3)">W1</small></div>
+              <div style="flex:1;text-align:center"><div class="bar green" style="height:72px;width:14px;margin:0 auto;border-radius:8px"><i style="height:100%"></i></div><small style="font-size:11px;color:var(--ink-3)">W2</small></div>
+              <div style="flex:1;text-align:center"><div class="bar green" style="height:66px;width:14px;margin:0 auto;border-radius:8px"><i style="height:100%"></i></div><small style="font-size:11px;color:var(--ink-3)">W3</small></div>
+              <div style="flex:1;text-align:center"><div class="bar" style="height:50px;width:14px;margin:0 auto;border-radius:8px"><i style="height:100%;background:var(--amber)"></i></div><small style="font-size:11px;color:var(--ink-3)">W4</small></div>
+            </div>
+            <p style="font-size:13px;color:var(--ink-2);margin-top:14px">Slight dip this week, driven by Nadia. Everyone else steady.</p>
+          </div>
+        </div>
+        <div class="panel reveal d5">
+          <div class="panel-h"><h3>🎯 Milestones</h3><a href="project.html">All →</a></div>
+          <div class="panel-b" style="padding-top:8px">
+            <div class="flag"><span class="pill green">done</span><div class="txt" style="margin-left:4px">Kickoff & success metrics<small>Week 1</small></div></div>
+            <div class="flag"><span class="pill green">done</span><div class="txt" style="margin-left:4px">Discovery complete<small>Week 3</small></div></div>
+            <div class="flag"><span class="pill amber">in progress</span><div class="txt" style="margin-left:4px">Core build — onboarding<small>Week 4–6</small></div></div>
+            <div class="flag"><span class="pill blue">upcoming</span><div class="txt" style="margin-left:4px">Integration checkpoint<small>Week 9</small></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

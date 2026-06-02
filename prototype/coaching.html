@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PM Assistant — Coaching</title>
+<link rel="stylesheet" href="app.css">
+<style>
+  .stepper .wk{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:11px;font-size:14px;cursor:pointer;transition:background .2s}
+  .stepper .wk:hover{background:var(--cream-2)}
+  .stepper .wk.cur{background:var(--accent-tint);border:1px solid var(--line);font-weight:600}
+  .stepper .wk.past{color:var(--ink-3)}
+  .stepper .wk .n{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:12px;font-weight:700;background:var(--cream-3);color:var(--ink-2)}
+  .stepper .wk.past .n{background:var(--green-tint);color:#3f7a3f}
+  .stepper .wk.cur .n{background:var(--accent);color:#3a2a1c}
+  .lrn{display:flex;gap:13px;padding:13px 0;border-bottom:1px solid var(--line)}
+  .lrn:last-child{border-bottom:none}
+  .lrn .e{font-size:20px}.lrn .t b{font-weight:600}.lrn .t small{display:block;color:var(--ink-2);font-size:13px;margin-top:2px}
+  .chk{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+  .chk:last-child{border-bottom:none}
+  .chk .box{width:22px;height:22px;border-radius:7px;display:grid;place-items:center;font-size:13px;flex-shrink:0}
+  .chk.ok .box{background:var(--green);color:#fff}
+  .chk.no .box{border:2px solid var(--amber);color:var(--amber)}
+  .chk .t{font-size:14px}.chk .t small{display:block;color:var(--ink-3);font-size:12px}
+  .chk .act{margin-left:auto;font-size:12.5px;font-weight:600;color:var(--accent-deep);padding:5px 10px;border-radius:8px}
+  .chk .act:hover{background:var(--accent-tint)}
+  .res{display:inline-flex;align-items:center;gap:7px;font-size:13px;background:var(--cream-2);border:1px solid var(--line);padding:8px 13px;border-radius:999px;margin:4px 6px 0 0}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="s-brand"><span class="blob"></span>PM Assistant</div>
+    <div class="wk-badge"><div class="lbl">Today</div><div class="wk">Week <b>4</b> <span style="color:var(--ink-3);font-weight:500">/ 11</span></div><div class="wk-bar"><i></i></div></div>
+    <nav class="nav">
+      <a href="home.html"><span class="ico">◐</span>Home</a>
+      <a href="team.html"><span class="ico">👥</span>Team<span class="count">7</span></a>
+      <a class="on" href="coaching.html"><span class="ico">🧭</span>Coaching</a>
+      <a href="project.html"><span class="ico">🎯</span>Project</a>
+    </nav>
+    <a class="side-cta" href="standup.html">☀️ Run standup</a>
+    <div class="side-foot"><span class="av">S</span><div>Sreejith<br><span style="color:var(--ink-3);font-size:12px">Product Manager</span></div></div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div><div class="crumb">Coaching</div><div class="tt">Your PM curriculum</div></div>
+      <div class="top-actions"><span class="pill green" style="padding:7px 13px">3 of 5 habits on track</span></div>
+    </div>
+
+    <div class="content">
+      <div class="row" style="grid-template-columns:240px 1fr;gap:24px;align-items:start">
+        <!-- STEPPER -->
+        <div class="panel reveal d1" style="position:sticky;top:92px">
+          <div class="panel-h"><h3 style="font-size:15px">11-week path</h3></div>
+          <div class="panel-b stepper" style="padding:10px 10px">
+            <div class="wk past"><span class="n">✓</span> Kickoff & Foundations</div>
+            <div class="wk past"><span class="n">✓</span> Discovery & Alignment</div>
+            <div class="wk past"><span class="n">✓</span> Scope & Prioritization</div>
+            <div class="wk cur"><span class="n">4</span> De-risk & Sequence</div>
+            <div class="wk"><span class="n">5</span> Execution Rhythm</div>
+            <div class="wk"><span class="n">6</span> Mid-project Health</div>
+            <div class="wk"><span class="n">7</span> Feedback & Quality</div>
+            <div class="wk"><span class="n">8</span> Scope Under Pressure</div>
+            <div class="wk"><span class="n">9</span> Integration & Risk</div>
+            <div class="wk"><span class="n">10</span> Launch Readiness</div>
+            <div class="wk"><span class="n">11</span> Launch & Retro</div>
+          </div>
+        </div>
+
+        <!-- WEEK CONTENT -->
+        <div style="display:flex;flex-direction:column;gap:18px">
+          <div class="card reveal d2" style="background:linear-gradient(160deg,var(--ink),#3a332b);color:var(--cream);border:none">
+            <div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)">Week 4 of 11 · Define & Plan</div>
+            <div class="display" style="font-weight:600;font-size:28px;letter-spacing:-.02em;margin:8px 0 8px">De-risk & Sequence</div>
+            <p style="color:#D9CFC4;font-size:15px;max-width:60ch;line-height:1.55">Find what could kill the project before it does. Surface risks, map dependencies, and sequence the riskiest work first — not last.</p>
+          </div>
+
+          <div class="row r1-1" style="align-items:start">
+            <!-- learn -->
+            <div class="panel reveal d3">
+              <div class="panel-h"><h3>📚 Learn this week</h3></div>
+              <div class="panel-b" style="padding:6px 20px 14px">
+                <div class="lrn"><span class="e">🗂️</span><div class="t"><b>RAID & risk registers</b><small>Risks, Assumptions, Issues, Dependencies — with owners.</small></div></div>
+                <div class="lrn"><span class="e">🔮</span><div class="t"><b>The premortem</b><small>Imagine the failure, then work back to causes.</small></div></div>
+                <div class="lrn"><span class="e">✅</span><div class="t"><b>Definition of Done</b><small>A shared bar for “complete” so quality isn't argued at the end.</small></div></div>
+              </div>
+            </div>
+            <!-- do -->
+            <div class="panel reveal d4">
+              <div class="panel-h"><h3>🎬 Do this week</h3></div>
+              <div class="panel-b" style="padding:6px 20px 14px">
+                <div class="lrn"><span class="e">①</span><div class="t">Run a premortem & populate the risk register</div></div>
+                <div class="lrn"><span class="e">②</span><div class="t">Map dependencies between design, dev & data</div></div>
+                <div class="lrn"><span class="e">③</span><div class="t">Agree a Definition of Done with the team</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- best-practice checks -->
+          <div class="panel reveal d4">
+            <div class="panel-h"><h3>🔎 Best-practice checks</h3><span class="pill amber">2 need attention</span></div>
+            <div class="panel-b" style="padding:6px 20px 14px">
+              <div class="chk ok"><span class="box">✓</span><div class="t"><b>Risk register has entries</b><small>3 risks logged</small></div></div>
+              <div class="chk no"><span class="box">!</span><div class="t"><b>Every open risk has an owner</b><small>1 risk is unassigned</small></div><a class="act" href="project.html">Fix →</a></div>
+              <div class="chk no"><span class="box">!</span><div class="t"><b>Definition of Done captured</b><small>Not logged as a decision yet</small></div><a class="act" href="#">Add →</a></div>
+              <div class="chk ok"><span class="box">✓</span><div class="t"><b>Riskiest work scheduled early</b><small>Integration spike is in Week 5</small></div></div>
+            </div>
+          </div>
+
+          <!-- reflection + resources -->
+          <div class="row r2-1" style="align-items:start">
+            <div class="card reveal d5" style="background:var(--accent-tint);border-color:var(--line)">
+              <div style="font-size:13px;font-weight:600;color:var(--accent-deep)">🪞 Reflection</div>
+              <p class="display" style="font-weight:500;font-size:18px;letter-spacing:-.01em;margin-top:8px;line-height:1.35">What's the single biggest risk to hitting Week 11 — and what happens this week to shrink it?</p>
+              <textarea class="field" rows="2" placeholder="Jot a thought…" style="margin-top:12px;background:#fff;border-color:var(--line)"></textarea>
+            </div>
+            <div class="panel reveal d5">
+              <div class="panel-h"><h3 style="font-size:15px">📦 Resources</h3></div>
+              <div class="panel-b" style="padding:14px 20px">
+                <span class="res">🔗 RAID log</span><span class="res">🔗 Premortem (HBR)</span><span class="res">🔗 Definition of Done</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

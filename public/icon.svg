@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="112" fill="#FBF6EF"/>
+  <rect x="96" y="96" width="320" height="320" rx="96" ry="72"
+        fill="#E59866" stroke="#C16C38" stroke-width="6"/>
+  <text x="256" y="300" text-anchor="middle"
+        font-family="'Bricolage Grotesque', 'Trebuchet MS', sans-serif"
+        font-size="150" font-weight="700" fill="#3A2A1C">PM</text>
+</svg>

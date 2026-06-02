@@ -1,0 +1,15 @@
+node_modules
+dist
+dist-ssr
+*.local
+.DS_Store
+.vite
+
+# dev server logs + TS build cache
+dev.out.log
+dev.err.log
+*.tsbuildinfo
+
+# data lives OUTSIDE the source tree (D:\PM-Assistant\) — never commit data
+*.db
+*.sqlite

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PM Assistant — Insights</title>
+<link rel="stylesheet" href="app.css">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* dense, B-inspired language layered on the warm palette */
+  .mono{font-family:"JetBrains Mono",monospace}
+  .lbl{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+  .num{font-variant-numeric:tabular-nums}
+
+  /* KPI strip — tight tiles, hairline separators */
+  .kpis{display:grid;grid-template-columns:repeat(6,1fr);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--card)}
+  .kpi{padding:15px 16px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .kpi:nth-child(6n){border-right:none}
+  .kpi:nth-last-child(-n+6){border-bottom:none}
+  .kpi .v{font-family:var(--display);font-weight:700;font-size:25px;letter-spacing:-.02em;line-height:1;margin-top:7px;font-variant-numeric:tabular-nums}
+  .kpi .v small{font-size:13px;color:var(--ink-3);font-weight:500}
+  .kpi .delta{font-family:"JetBrains Mono",monospace;font-size:11px;margin-top:6px}
+  .kpi .delta.up{color:#3f7a3f}.kpi .delta.dn{color:#a8493a}.kpi .delta.flat{color:var(--ink-3)}
+
+  /* dense data table */
+  .dtable{width:100%;border-collapse:collapse;font-size:13.5px}
+  .dtable th{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);font-weight:600;white-space:nowrap}
+  .dtable th.r,.dtable td.r{text-align:right}
+  .dtable td{padding:11px 14px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+  .dtable tr:last-child td{border-bottom:none}
+  .dtable tr:hover td{background:var(--cream-2)}
+  .dtable .person{display:flex;align-items:center;gap:10px;font-weight:600}
+  .dtable .person small{font-weight:400;color:var(--ink-3);font-family:"JetBrains Mono",monospace;font-size:11px}
+  .mini{display:inline-flex;align-items:center;gap:6px}
+  .mini .bar{width:46px;height:6px}
+  .warn{color:#a8493a;font-weight:600}
+  .flagdot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:3px}
+  .flagdot.r{background:var(--red)}.flagdot.a{background:var(--amber)}
+
+  /* attendance matrix */
+  .amx{width:100%;border-collapse:collapse;font-size:12px}
+  .amx th{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--ink-3);font-weight:500;padding:7px 6px;text-align:center}
+  .amx td{padding:6px;text-align:center}
+  .amx td.nm{text-align:left;font-weight:600;font-size:13px;white-space:nowrap}
+  .cell{width:20px;height:20px;border-radius:6px;display:inline-grid;place-items:center;font-size:10px;font-weight:700}
+  .cell.p{background:var(--green-tint);color:#3f7a3f}
+  .cell.l{background:var(--amber-tint);color:#9a6f1e}
+  .cell.a{background:var(--red-tint);color:#a8493a}
+  .cell.x{background:var(--cream-2);color:var(--ink-3)}
+
+  /* sparkline bars */
+  .spark{display:flex;align-items:flex-end;gap:6px;height:64px}
+  .spark .s{flex:1;background:var(--accent);border-radius:5px 5px 0 0;min-height:6px;position:relative}
+  .spark .s.amber{background:var(--amber)}
+  .sparklabels{display:flex;gap:6px;margin-top:6px}
+  .sparklabels span{flex:1;text-align:center;font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--ink-3)}
+
+  .seg-toggle{display:inline-flex;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:3px}
+  .seg-toggle button{font-family:"JetBrains Mono",monospace;font-size:11.5px;font-weight:600;padding:6px 12px;border:none;background:none;border-radius:7px;cursor:pointer;color:var(--ink-3)}
+  .seg-toggle button.on{background:var(--ink);color:var(--cream)}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="s-brand"><span class="blob"></span>PM Assistant</div>
+    <div class="wk-badge"><div class="lbl" style="font-family:var(--body);letter-spacing:.1em">Today</div><div class="wk">Week <b>4</b> <span style="color:var(--ink-3);font-weight:500">/ 11</span></div><div class="wk-bar"><i></i></div></div>
+    <nav class="nav">
+      <a href="home.html"><span class="ico">◐</span>Home</a>
+      <a href="team.html"><span class="ico">👥</span>Team<span class="count">7</span></a>
+      <a class="on" href="insights.html"><span class="ico">📊</span>Insights</a>
+      <a href="coaching.html"><span class="ico">🧭</span>Coaching</a>
+      <a href="project.html"><span class="ico">🎯</span>Project</a>
+    </nav>
+    <a class="side-cta" href="standup.html">☀️ Run standup</a>
+    <div class="side-foot"><span class="av">S</span><div>Sreejith<br><span style="color:var(--ink-3);font-size:12px">Product Manager</span></div></div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div><div class="crumb">Insights</div><div class="tt">Team analytics</div></div>
+      <div class="top-actions">
+        <div class="seg-toggle"><button>WEEK</button><button class="on">PROJECT</button><button>ALL</button></div>
+        <button class="btn btn-ghost">⤓ Export CSV</button>
+      </div>
+    </div>
+
+    <div class="content" style="max-width:1240px">
+      <!-- KPI STRIP -->
+      <div class="kpis reveal d1">
+        <div class="kpi"><div class="lbl">Standup rate</div><div class="v num">92<small>%</small></div><div class="delta up">▲ 4% vs wk3</div></div>
+        <div class="kpi"><div class="lbl">Attendance</div><div class="v num">94<small>%</small></div><div class="delta flat">— steady</div></div>
+        <div class="kpi"><div class="lbl">Avg mood</div><div class="v num">3.9<small>/5</small></div><div class="delta dn">▼ 0.3 vs wk3</div></div>
+        <div class="kpi"><div class="lbl">Open blockers</div><div class="v num">2</div><div class="delta dn">▲ 1 aging</div></div>
+        <div class="kpi"><div class="lbl">Action closure</div><div class="v num">78<small>%</small></div><div class="delta up">▲ 6%</div></div>
+        <div class="kpi"><div class="lbl">1:1 coverage</div><div class="v num">6<small>/7</small></div><div class="delta dn">1 overdue</div></div>
+      </div>
+
+      <!-- PER-PERSON TABLE -->
+      <div class="panel reveal d2 mt4">
+        <div class="panel-h"><h3>📋 Per-person breakdown</h3><span class="lbl">project to date · week 4</span></div>
+        <div style="overflow-x:auto">
+          <table class="dtable">
+            <thead><tr>
+              <th>Person</th><th class="r">Standups</th><th class="r">Attend</th><th class="r">Tracker</th><th>Mood</th><th>Last 1:1</th><th class="r">Kudos</th><th class="r">Flags</th>
+            </tr></thead>
+            <tbody>
+              <tr><td><div class="person"><span class="av sm">AK</span>Aisha Khan <small>DSGN</small></div></td><td class="r">19/20</td><td class="r">96%</td><td class="r">88%</td><td>🙂 <span class="mono">3.8</span></td><td class="warn">15d ago ⚠</td><td class="r">4</td><td class="r"><span class="flagdot a"></span>1</td></tr>
+              <tr><td><div class="person"><span class="av sm">MR</span>Maya Rao <small>DSGN</small></div></td><td class="r">20/20</td><td class="r">100%</td><td class="r">95%</td><td>😄 <span class="mono">4.5</span></td><td>4d ago</td><td class="r">3</td><td class="r">0</td></tr>
+              <tr><td><div class="person"><span class="av sm c3">RP</span>Ravi Patel <small>DEV</small></div></td><td class="r">18/20</td><td class="r">90%</td><td class="r">80%</td><td>🙂 <span class="mono">3.6</span></td><td>6d ago</td><td class="r">2</td><td class="r"><span class="flagdot r"></span>1</td></tr>
+              <tr><td><div class="person"><span class="av sm c2">LC</span>Leo Chen <small>DEV</small></div></td><td class="r">19/20</td><td class="r">95%</td><td class="r">92%</td><td>🙂 <span class="mono">3.9</span></td><td>3d ago</td><td class="r">1</td><td class="r">0</td></tr>
+              <tr><td><div class="person"><span class="av sm c2">TN</span>Tom Nguyen <small>DEV</small></div></td><td class="r">17/20</td><td class="r">85%</td><td class="r">70%</td><td>🙂 <span class="mono">3.7</span></td><td>8d ago</td><td class="r">1</td><td class="r"><span class="flagdot a"></span>1</td></tr>
+              <tr><td><div class="person"><span class="av sm c3">NH</span>Nadia Hassan <small>DATA</small></div></td><td class="r">20/20</td><td class="r">100%</td><td class="r">90%</td><td class="warn">😐 <span class="mono">2.6</span></td><td>5d ago</td><td class="r">2</td><td class="r"><span class="flagdot a"></span>1</td></tr>
+              <tr><td><div class="person"><span class="av sm c4">SO</span>Sam Okafor <small>DATA</small></div></td><td class="r">18/20</td><td class="r">92%</td><td class="r">85%</td><td>😄 <span class="mono">4.2</span></td><td>7d ago</td><td class="r">3</td><td class="r">0</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="row r2-1 mt4" style="align-items:start">
+        <!-- ATTENDANCE MATRIX -->
+        <div class="panel reveal d3">
+          <div class="panel-h"><h3>🗓️ Attendance matrix</h3><span class="lbl">last 8 meetings</span></div>
+          <div class="panel-b" style="padding:14px 18px;overflow-x:auto">
+            <table class="amx">
+              <thead><tr><th></th><th>M1</th><th>M2</th><th>M3</th><th>M4</th><th>M5</th><th>M6</th><th>M7</th><th>M8</th></tr></thead>
+              <tbody>
+                <tr><td class="nm">Aisha</td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell l">L</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td></tr>
+                <tr><td class="nm">Maya</td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td></tr>
+                <tr><td class="nm">Ravi</td><td><span class="cell p">P</span></td><td><span class="cell a">A</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell l">L</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td></tr>
+                <tr><td class="nm">Leo</td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell l">L</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td></tr>
+                <tr><td class="nm">Tom</td><td><span class="cell a">A</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell a">A</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell l">L</span></td><td><span class="cell p">P</span></td></tr>
+                <tr><td class="nm">Nadia</td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td></tr>
+                <tr><td class="nm">Sam</td><td><span class="cell p">P</span></td><td><span class="cell l">L</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td><td><span class="cell a">A</span></td><td><span class="cell p">P</span></td><td><span class="cell p">P</span></td></tr>
+              </tbody>
+            </table>
+            <div style="display:flex;gap:16px;margin-top:14px;font-size:11.5px;color:var(--ink-2)">
+              <span><span class="cell p" style="width:14px;height:14px;vertical-align:middle"></span> Present</span>
+              <span><span class="cell l" style="width:14px;height:14px;vertical-align:middle"></span> Late</span>
+              <span><span class="cell a" style="width:14px;height:14px;vertical-align:middle"></span> Absent</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- TRENDS + FLAG SUMMARY -->
+        <div style="display:flex;flex-direction:column;gap:18px">
+          <div class="panel reveal d4">
+            <div class="panel-h"><h3 style="font-size:15px">Team mood</h3><span class="lbl">by week</span></div>
+            <div class="panel-b" style="padding:16px 20px">
+              <div class="spark">
+                <div class="s" style="height:80%"></div><div class="s" style="height:92%"></div><div class="s" style="height:86%"></div><div class="s amber" style="height:64%"></div>
+              </div>
+              <div class="sparklabels"><span>W1</span><span>W2</span><span>W3</span><span>W4</span></div>
+            </div>
+          </div>
+          <div class="panel reveal d5">
+            <div class="panel-h"><h3 style="font-size:15px">Open flags</h3><span class="pill amber">4</span></div>
+            <div class="panel-b" style="padding:8px 20px 14px">
+              <div class="flag" style="padding:9px 0"><span class="lbl" style="width:64px">1:1</span><div class="txt" style="font-size:13.5px">Aisha overdue</div><span class="age">15d</span></div>
+              <div class="flag" style="padding:9px 0"><span class="lbl" style="width:64px">BLOCKER</span><div class="txt" style="font-size:13.5px">API access aging</div><span class="age">4d</span></div>
+              <div class="flag" style="padding:9px 0"><span class="lbl" style="width:64px">MOOD</span><div class="txt" style="font-size:13.5px">Nadia trending low</div><span class="age">3d</span></div>
+              <div class="flag" style="padding:9px 0"><span class="lbl" style="width:64px">TRACKER</span><div class="txt" style="font-size:13.5px">Tom behind on updates</div><span class="age">2d</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script>
+  document.querySelectorAll('.seg-toggle button').forEach(b=>b.addEventListener('click',()=>{
+    b.parentElement.querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  }));
+</script>
+</body>
+</html>
